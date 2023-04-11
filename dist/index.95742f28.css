@@ -90,6 +90,12 @@ header .toggle.active:before {
   content: "CLOSE";
 }
 
+.spacer {
+  height: 100px;
+  align-items: start;
+  position: relative;
+}
+
 .glass {
   width: 1%;
   height: 100%;
@@ -242,6 +248,15 @@ section .navigation li a:hover {
     padding: 0 5px;
     font-size: .25em;
   }
+
+  section .content-text {
+    width: 80%;
+    padding: 0;
+  }
+}
+
+#content-right {
+  width: 100%;
 }
 
 #top {
@@ -423,15 +438,14 @@ ul {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  margin: 100px;
   display: none;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #content-text {
   text-align: justify;
-  width: 50%;
+  width: 80%;
   opacity: .8;
   background: #222;
   border-radius: 50px;
@@ -527,23 +541,24 @@ h1, p {
   height: 100%;
   opacity: 0;
   flex-wrap: wrap;
-  gap: 50px;
-  margin: 50px;
+  gap: 100px;
   position: absolute;
   overflow-y: auto;
 }
 
-#about-me-content {
-  width: -moz-fit-content;
-  width: fit-content;
+#about-me-content, #about-me-content1 {
+  width: 80%;
   height: -moz-fit-content;
   height: fit-content;
   text-align: justify;
-  background: #9795959d;
-  border-radius: 50px;
+  background: #97959500;
+  border-radius: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 200px;
   padding: 20px 30px;
+  display: flex;
   position: relative;
-  top: 2%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%);
   box-shadow: 25px 25px 50px #000, -25px -25px 110px #302f2f;
@@ -554,7 +569,7 @@ h1, p {
   color: #111;
   text-transform: uppercase;
   letter-spacing: 4px;
-  z-index: 1;
+  z-index: 101;
   cursor: pointer;
   background-color: #fff;
   padding: 4px 10px;
@@ -564,6 +579,7 @@ h1, p {
   transition: all .5s;
   display: none;
   bottom: 10vh;
+  overflow: auto;
 }
 
 #story-button:hover {

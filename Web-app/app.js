@@ -1,14 +1,17 @@
 console.log(Math.random())
-import * as THREE from 'three';
+// import * as THREE from 'three';
+import * as THREE from './three.js';
 import fragment from './shaders/fragment.glsl';
 import vertex from './shaders/vertex.glsl';
 import vertexShaderTao from './shaders/vertexShaderTao.glsl';
 import fragmentShaderTao from './shaders/fragmentShaderTao.glsl';
+import vertexShaderStoryTao from './shaders/vertexShaderStoryTao.glsl';
+import fragmentShaderStoryTao from './shaders/fragmentShaderStoryTao.glsl';
 
-import t1 from './images/charming.png';
-import t2 from './images/2.1.webp';
-import t3 from './images/3.1.webp';
-import t4 from './images/soldier.png';
+import t1 from './images/storyBG2.jpg';
+import t2 from './images/storyBG4.jpg';
+import t3 from './images/storyBG3.jpg';
+import t4 from './images/storyBG1.jpg';
 import mask from './images/mask.png';
 
 import wb0 from './images/workBG0.jpg';
@@ -24,11 +27,12 @@ import maskBackground from './images/maskBackground.jpg';
 import bg from './images/background.jpg';
 import gsap from './gsap.min.js';
 
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { CurtainShader } from './effect1';
-import { RGBAShader } from './effect2';
+import { EffectComposer } from './three.js/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from './three.js/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from './three.js/examples/jsm/postprocessing/ShaderPass.js';
+import { CurtainShader } from './effect1.js';
+import { RGBAShader } from './effect2.js';
+import { TestShader } from './effect3.js';
 import { Vector2 } from './three.js/build/three.cjs';
 
 
@@ -69,7 +73,7 @@ export default class Sketch {
 
 
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 3000);
-        this.camera.position.y = -1080 * 1.5;
+        this.camera.position.y = 0;
         this.camera.position.z = 1500;
         this.camera.aspect = window.innerWidth / window.innerHeight
 
@@ -176,6 +180,8 @@ export default class Sketch {
         });
         //----------------------------------------------------------------
         this.addTao();
+        // this.addTaoStory();
+        // this.mouseEffects();
         this.addMesh();
         this.events();
         this.initPost();
@@ -186,9 +192,21 @@ export default class Sketch {
         }, 6000);
         console.log(Math.random(),'inside')
         
-
+        
         this.render();
     }
+    getMobileOS() {
+        const ua = navigator.userAgent
+        if(/android/i.test(ua)) {
+          return "Android"
+        }
+        else if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){
+            // alert("Please select")
+          return "iOS"
+        }
+        return "Other"
+      }
+
     addTao() {
         //taotajima.jp transition
         this.taoPlane = new THREE.PlaneGeometry(1920 * 1.2, 1080 * 1.2, 1, 1);
@@ -213,6 +231,30 @@ export default class Sketch {
         console.log('addtao')
     }
 
+    addTaoStory() {
+        //taotajima.jp transition
+        this.taoStoryPlane = new THREE.PlaneGeometry(1920 * 1.2, 1080 * 1.2, 1, 1);
+        this.taoStoryMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                time: { type: 'f', value: 0 },
+                pixels: { type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+                progress: { type: 'f', value: 0 },
+                uxRate1: {
+                    value: new THREE.Vector2(1, 1)
+                },
+                accel: { type: 'v2', value: new THREE.Vector2(0.5, 2) },
+                b0: { type: 't', value: this.workBG[0] },
+                b1: { type: 't', value: this.workBG[1] },
+            },
+            vertexShader: vertexShaderStoryTao,
+            fragmentShader: fragmentShaderStoryTao,
+        })
+        this.storyTao = new THREE.Mesh(this.taoStoryPlane, this.taoStoryMaterial);
+        this.storyTao.position.y = +1080 * 1.5;
+        this.scene.add(this.storyTao);
+        console.log('addstorytao')
+    }
+
     events() {
         this.event.on('move', ({ uv }) => {
             this.mouseBackground.x = uv[0] - 1.
@@ -232,6 +274,9 @@ export default class Sketch {
 
         this.effectPass1 = new ShaderPass(RGBAShader);
         this.composer.addPass(this.effectPass1);
+
+        this.effectPass2 = new ShaderPass(TestShader);
+        this.composer.addPass(this.effectPass2);
 
         this.composer.setSize(window.innerWidth, window.innerHeight);
 
@@ -389,7 +434,7 @@ export default class Sketch {
             },
             side: THREE.DoubleSide,
             transparent: true,
-            depthTest: false,
+            // depthTest: false,
             depthWrite: false,
         })
 
@@ -411,7 +456,7 @@ export default class Sketch {
         for (let i = 0; i < 512; i++) {
             let posX = i - 256;
             for (let j = 0; j < 512; j++) {
-                this.position.setXYZ(index, posX * 2, (j - 256) * 2 + 1080 * 1.5, 0);
+                this.position.setXYZ(index, posX * 3, (j - 256) * 3 + 1080 * 1.5, 0);
                 this.coordinates.setXYZ(index, i, j, 0);
                 this.offset.setX(index, rand(-1000, 1000));
                 this.speeds.setX(index, rand(0.4, 2));
@@ -454,6 +499,7 @@ export default class Sketch {
         var endScroll;
         var endScroll2;
         var endScroll3;
+        // var done;
         // let object = document.getElementById('main-button')
 
         // function call once when 
@@ -466,11 +512,93 @@ export default class Sketch {
             this.camera.updateProjectionMatrix();
         })
 
-        window.addEventListener('mousewheel', (e) => {
+        if(this.getMobileOS()=="iOS"){
+            this.scrollDirection = 1
+            this.isScrolling = 0
+            this.scrollInertia = 0
+            window.addEventListener('scroll',()=>{
+                this.isScrolling = 1;
+                this.scrollInertia = 0.8;
+                if (window.pageYOffset>0){
+                    this.scrollDirection = -1
+                } else{
+                    this.scrollDirection = 1
+                }
+                console.log(window.pageYOffset)
+                // this.move = window.pageYOffset/10
+                // console.log(window.pageYOffset,'pageyoffset')
+                if (document.getElementById('content').style.display != 'flex' && document.getElementById('work-individual').style.display == 'none') {
+                    
+                    // this.move += (Math.log(1 + (window.page) / 1000)) / (Math.log(100));
+                    // this.move = window.pageYOffset
+                    // this.storyButton.innerHTML = this.contentsTitle[this.current];
+                    this.storyButton.classList.remove('animate-in');
+                    this.storyButton.classList.add('animate-out')
+                    this.runScrollingAnimation();
+                    // document.getElementById('content').style
+                    if (document.getElementsByClassName('progress')[0].classList.contains("animate-out")) {
+                        document.getElementsByClassName('progress')[0].classList.remove('animate-out')
+                        document.getElementsByClassName('progress')[0].classList.add('animate-in')
+                    }
+                    window.clearTimeout(endScroll);
+                    window.clearTimeout(endScroll2);
+            
 
+                    endScroll = setTimeout(() => this.runStoryAnimation(), 300)
+                    endScroll2 = setTimeout(function () {
+
+
+                        let round = Math.round(this.move);
+                        this.timeline1.to(this, { move: round })
+
+                        let scrollRatio = (round / 628.4);
+                        scrollRatio = Math.max(scrollRatio, 0);
+                        scrollRatio = Math.min(scrollRatio, 1);
+                        for (const path of document.querySelectorAll('svg path')) {
+                            // Min & Max can be hardcoded to fit your use-case
+                            const dashOffsetMin = 0;
+                            const dashOffsetMax = path.getTotalLength();
+                            const dashOffsetRange = dashOffsetMax
+                                - dashOffsetMin;
+                            // Set stroke-dashoffset
+                            this.timeline1.to(path.style, {
+                                strokeDashoffset: dashOffsetMin
+                                    + dashOffsetRange * scrollRatio * 155,
+                                duration: 0.1,
+                            });
+                            round = round % 4
+                            this.projectIndex.setAttribute("data-percent", this.contentsTitle[round]);
+                            // this.storyButton.innerHTML = this.contentsTitle[round]
+                        }
+
+                    }.bind(this), 200)
+
+
+                    this.animateSvg();
+
+
+                } else if (document.getElementById('content').style.display != 'flex') {
+                    // this.move += (Math.log(1 + (e.wheelDeltaY) / 1000)) / (Math.log(100));
+                    // this.move = window.pageYOffset
+                    let i = Math.round(this.move) % 4
+                    document.getElementById('work-content-individual').querySelector('p').innerHTML = this.workTitles[i]
+                    document.getElementById('work-content-individual').querySelector('p').innerHTML += this.workContents[i]
+
+                }
+                clearTimeout(endScroll3)
+                endScroll3 = setTimeout(function() {
+                    this.isScrolling = 0
+                    console.log('false')
+                }.bind(this),100)
+                console.log('true')
+                
+
+            },false)
+        }else {window.addEventListener('mousewheel', (e) => {
+            console.log(this.move,'wheelDeltaY')
 
             if (document.getElementById('content').style.display != 'flex' && document.getElementById('work-individual').style.display == 'none') {
-
+                
                 this.move += (Math.log(1 + (e.wheelDeltaY) / 1000)) / (Math.log(100));
                 // this.storyButton.innerHTML = this.contentsTitle[this.current];
                 this.storyButton.classList.remove('animate-in');
@@ -526,9 +654,7 @@ export default class Sketch {
 
             }
 
-
-
-        }, false);
+        }, false);}
 
 
 
@@ -565,7 +691,7 @@ export default class Sketch {
             }
             setTimeout(() => {
                 this.storyButton.style.display = 'none';
-            }, 1000);
+            }, 100);
         })
 
         let aboutMeBtn = document.getElementById('about-me-btn')
@@ -587,6 +713,13 @@ export default class Sketch {
 
     render() {
         this.time++;
+
+        if (this.isScrolling){
+            this.scrollInertia -= 0.03
+            if (this.scrollInertia<0){this.scrollInertia=0;}
+            console.log((this.move))
+            this.move += (0.0275 *this.scrollDirection*(this.scrollInertia))
+        }
 
 
         // breathing effect of background
@@ -630,6 +763,11 @@ export default class Sketch {
         this.material.uniforms.mouse.value = this.point;
 
 
+        // this.taoStoryMaterial.uniforms.progress.value = (this.move % 1);
+        // this.taoStoryMaterial.uniforms.time.value = this.time;
+        // this.taoStoryMaterial.uniforms.b0.value = this.workBG[this.current];
+        // this.taoStoryMaterial.uniforms.b1.value = this.workBG[next];
+
         this.taoMaterial.uniforms.progress.value = (this.move % 1);
         this.taoMaterial.uniforms.time.value = this.time;
 
@@ -637,6 +775,7 @@ export default class Sketch {
         this.taoMaterial.uniforms.b1.value = this.workBG[next];
         this.composer.render(this.scene, this.camera);
         window.requestAnimationFrame(this.render.bind(this));
+        console.log(this.move)
 
 
 

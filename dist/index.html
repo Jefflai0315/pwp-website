@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Playing With Pencil</title>
   <!-- <link rel="stylesheet" href="/index.3b8cdc40.css"> -->
-  <link rel="stylesheet" href="/index.8b701924.css">
+  <link rel="stylesheet" href="/index.95742f28.css">
 
 </head>
 
@@ -43,31 +43,22 @@
       <li id="story" onclick="story()" class="tab" style="--i: 2"><a href="#">Story</a></li>
       <li id="work" onclick="work()" class="tab" style="--i: 3"><a href="#">Work</a></li>
     </ul>
+  
+      <div id="about-me">
+        <div id="about-me-content">
+          <h1>Hi! My name is Jeff...</h1>
+          <p> I am a computer science professional who is passionate about designing and developing with AI systems. But that's not all - I also happen to be a self-taught artist with over a decade of experience in drawing.
 
-    <div id="about-me">
-      <div id="about-me-content">
-        <h1>If I can write a Poem...</h1>
-        <p> A sketch hand made just for me, <br>
-          A surprise that made my heart sing, <br>
-          He took his time and care to see,<br>
-          The moment of joy that he did bring.<br><br>
+            While my technical skills are focused on creating solutions with cutting-edge teechnology, my artistic side allows me to connect with people on a more personal level. I enjoy using my artistic talent to brighten people's days by creating custom drawings of them or their loved ones.
+            
+            So, whether it's designing intelligent systems or bringing a smile to someone's face through my art, I love using my skills to make a positive impact on the world.
+        </p></div>
 
-          With gentle strokes and raise highlight,<br>
-          He captured all that made me unique,<br>
-          And gifted me with this delight,<br>
-          A masterpiece I'll forever keep.<br><br>
-
-          I felt so honored and so blessed,<br>
-          To have such a thoughtful friend,<br>
-          Who celebrated me with such finesse,<br>
-          And brought my happiness to no end.<br><br>
-
-          For every stroke and every delicacy,<br>
-          Is like a little piece of heart,<br>
-          A way to say, "you are extraordinary",<br>
-          And a way to make a brand new start.<br><br>
-      </p></div>
-    </div>
+        <!-- <div id="about-me-content1">
+        </div> -->
+          
+      </div>
+   
 
     <div id="content">
       <iframe id="story-iframe" width="315" height="560" src="https://www.youtube.com/embed/fw3TBow56QQ?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
@@ -96,7 +87,7 @@
 
   <div id="container"></div>
     <!-- <h1>Jeff Laixs</h1> -->
-    <script src="/index.fe822b4b.js" defer=""></script>
+    <script src="/index.36cc81dd.js" defer=""></script>
     <script type="text/javascript">console.log("hi text");
 function menuToggle() {
     const toggleMenu = document.querySelector(".toggle");
@@ -176,6 +167,16 @@ function work() {
     hideContent();
     menuToggle();
 }
+
+</script>
+   <script type="text/javascript">let start = setTimeout(function() {
+    menuToggle();
+    console.log("start");
+}, 1000);
+let end = setTimeout(function() {
+    about();
+    console.log("end");
+}, 2000);
 
 </script>
   

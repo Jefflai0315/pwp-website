@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playing With Pencil</title>
+  <!-- <link rel="stylesheet" href="/index.3b8cdc40.css"> -->
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<body>
+  <div id="block">
+    <ul class="progress animate-in">
+      <li id="projectIndex" data-name="playing with pencil" data-percent="start scrolling"> <svg viewbox="-10 -10 220 220">
+          <g fill="none" stroke-width="1" transform="translate(0,100)">
+          </g>
+        </svg>
+        <svg viewbox="-10 -10 220 220">
+          <path d="M200,100 C200,155.228475 155.228475,200 100,200 C44.771525,200 0,155.228475 0,100 C0,44.771525 44.771525,0 100,0 C155.228475,0 200,44.771525 200,100 Z" stroke-dashoffset="157.25"></path>
+        </svg>
+      </li>
+    </ul>
+  </div>
+  <section>
+    <header>
+      <a href="#" class="logo">Jeff Lai</a>
+      <div class="toggle" onclick="menuToggle()"></div>
+    </header>
+    <div class="glass"></div>
+    <div class="content">
+      <h2>Portrait Drawings...<br><span>for the smile on the faces</span></h2>
+    </div>
+    <ul class="sci">
+      <li style="--i: 1"><a target="_blank" href="https://www.instagram.com/playingwithpencil/">Intagram</a></li>
+      <li style="--i: 2"><a target="_blank" href="https://www.tiktok.com/@jeffandpencil">Tiktok</a></li>
+      <li style="--i: 3"><a target="_blank" href="https://www.patreon.com/JeffLai">Patreon</a></li>
+    </ul>
+    <ul class="navigation">
+      <li id="about-me-btn" onclick="about()" class="tab" style="--i: 1"><a href="#">About</a></li>
+      <li id="story" onclick="story()" class="tab" style="--i: 2"><a href="#">Story</a></li>
+      <li id="work" onclick="work()" class="tab" style="--i: 3"><a href="#">Work</a></li>
+    </ul>
+  
+      <div id="about-me">
+        <div id="about-me-content">
+          <h1>If I can write a Poem...</h1>
+          <p> A sketch hand made just for me, <br>
+            A surprise that made my heart sing, <br>
+            He took his time and care to see,<br>
+            The moment of joy that he did bring.<br><br>
+
+            With gentle strokes and raise highlight,<br>
+            He captured all that made me unique,<br>
+            And gifted me with this delight,<br>
+            A masterpiece I'll forever keep.<br><br>
+
+            I felt so honored and so blessed,<br>
+            To have such a thoughtful friend,<br>
+            Who celebrated me with such finesse,<br>
+            And brought my happiness to no end.<br><br>
+
+            For every stroke and every delicacy,<br>
+            Is like a little piece of heart,<br>
+            A way to say, "you are extraordinary",<br>
+            And a way to make a brand new start.<br><br>
+        </p></div>
+      </div>
+   
+
+    <div id="content">
+      <iframe id="story-iframe" width="315" height="560" src="https://www.youtube.com/embed/fw3TBow56QQ?start=36" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+      <div class="content-right">
+        <div id="content-text"></div>
+        <div class="close-story-btn">
+          <div class="btn btn-story" onclick="hideIndContent()">
+            <span>Back</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="story-button">
+      <span>Play</span>
+    </div>
+    <div id="work-individual">
+      <div id="work-content-individual">
+        <p></p>
+        <div id="Etsy"> <a href="https://www.etsy.com/sg-en/listing/1443145547/100-hand-drawn-portrait-for-your-loved?ref=hp_active-mission-recs-rv-1-1" target="_blank">Shop on Etsy</a></div>
+      </div>
+    </div>
+
+
+  </section>
+
+  <div id='container'></div>
+    <!-- <h1>Jeff Laixs</h1> -->
+    <script type='module'src="app.js"></script>
+    <script type="text/javascript">
+      console.log("hi text")
+    function menuToggle() {
+      const toggleMenu = document.querySelector(".toggle");
+      const section = document.querySelector("section");
+      document.getElementsByClassName("navigation")[0].style.display = "block";
+      toggleMenu.classList.toggle("active");
+      section.classList.toggle("active");
+  }
+  function hideIndContent() {
+      if (document.getElementById("content").style.display == "flex") {
+          document.getElementById("content").classList.remove("animate-in");
+          document.getElementById("content").classList.add("animate-out");
+          document.getElementById("block").style.opacity = 0;
+          document.getElementById("block").style.display = "flex";
+          // wait 
+          let hide = setTimeout(function() {
+              document.getElementById("content").style.display = "none";
+              document.getElementById("block").style.opacity = 1;
+              document.getElementById("story-button").style.display = "block";
+          }, 2000);
+      }
+  }
+  function hideContent() {
+      document.getElementById("block").style.display = "none";
+      document.getElementById("story-button").classList.remove("animate-in");
+      document.getElementById("story-button").classList.add("animate-out");
+      if (document.getElementById("content").classList.contains("animate-in")) document.getElementById("content").classList.remove("animate-in");
+      document.getElementById("story-button").style.display = "none";
+      if (document.getElementById("content").style.display == "block") {
+          document.getElementById("content").classList.remove("animate-in");
+          document.getElementById("content").classList.add("animate-out");
+          document.getElementById("block").style.opacity = 0;
+          document.getElementById("block").style.display = "flex";
+          // wait 
+          let hide = setTimeout(function() {
+              document.getElementById("content").style.display = "none";
+              document.getElementById("block").style.opacity = 1;
+          }, 1000);
+      }
+  }
+  function hideWork() {
+      document.getElementById("work-individual").style.display = "none";
+  }
+  function hideAboutMe() {
+      if (document.getElementById("about-me").classList.contains("animate-in")) {
+          document.getElementById("about-me").classList.remove("animate-in");
+          document.getElementById("about-me").classList.add("animate-out");
+      }
+  }
+  function about() {
+      document.getElementsByClassName("content")[0].style.display = "none";
+      document.getElementsByClassName("sci")[0].style.display = "none";
+      let aboutMe = document.getElementById("about-me");
+      aboutMe.classList.remove("animate-out");
+      aboutMe.classList.add("animate-in");
+      hideContent();
+      hideWork();
+      menuToggle();
+  }
+  function story() {
+      document.getElementsByClassName("content")[0].style.display = "none";
+      document.getElementsByClassName("sci")[0].style.display = "none";
+      setTimeout(function() {
+          document.getElementById("block").style.display = "flex";
+          document.getElementById("story-button").style.display = "block";
+          document.getElementsByClassName("navigation")[0].style.display = "none";
+      }, 2000);
+      hideAboutMe();
+      hideWork();
+      menuToggle();
+  }
+  function work() {
+      document.getElementById("work-individual").style.display = "flex";
+      document.getElementsByClassName("content")[0].style.display = "none";
+      document.getElementsByClassName("sci")[0].style.display = "none";
+      hideAboutMe();
+      hideContent();
+      menuToggle();
+  }
+  
+  </script>
+  
+</body>
+</html>
